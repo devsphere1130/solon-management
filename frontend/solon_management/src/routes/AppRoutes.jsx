@@ -13,6 +13,7 @@ import { ROUTE_PATHS } from './routeConfig.js'
 const LandingPage = lazy(() => import('../pages/LandingPage.jsx'))
 const About = lazy(() => import('../pages/About.jsx'))
 const Services = lazy(() => import('../pages/Services.jsx'))
+const HowItWorks = lazy(() => import('../pages/HowItWorks.jsx'))
 const NotFound = lazy(() => import('../pages/NotFound.jsx'))
 const Login = lazy(() => import('../pages/auth/Login.jsx'))
 const Dashboard = lazy(() => import('../pages/admin/Dashboard.jsx'))
@@ -54,6 +55,7 @@ function AppRoutes() {
             <Route path={ROUTE_PATHS.home} element={<LandingPage />} />
             <Route path={ROUTE_PATHS.about} element={<About />} />
             <Route path={ROUTE_PATHS.services} element={<Services />} />
+            <Route path={ROUTE_PATHS.howItWorks} element={<HowItWorks />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 
