@@ -46,6 +46,31 @@
   }
 }
 
+@layer utilities {
+  .premium-scrollbar {
+    scrollbar-color: rgba(160, 90, 63, 0.38) transparent;
+    scrollbar-width: thin;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(160, 90, 63, 0.34);
+    border-radius: 999px;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(160, 90, 63, 0.5);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,

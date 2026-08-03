@@ -14,13 +14,14 @@ import {
   UserRound,
   Users,
 } from 'lucide-react'
+import { ROUTE_PATHS } from './routeConfig.js'
 
 export const adminNav = [
   { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { label: 'Appointments', path: '/appointments', icon: Calendar },
   { label: 'Calendar', path: '/calendar', icon: CalendarRange },
   { label: 'Customers', path: '/customers', icon: Users },
-  { label: 'Services', path: '/services', icon: Scissors },
+  { label: 'Services', path: ROUTE_PATHS.dashboardServices, icon: Scissors },
   { label: 'Staff', path: '/staff', icon: UserRound },
   { label: 'Products', path: '/products', icon: Package },
   { label: 'Inventory', path: '/inventory', icon: Boxes },

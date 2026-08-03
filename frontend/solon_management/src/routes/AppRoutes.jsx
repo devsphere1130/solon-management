@@ -12,12 +12,26 @@ import { ROUTE_PATHS } from './routeConfig.js'
 
 const LandingPage = lazy(() => import('../pages/LandingPage.jsx'))
 const About = lazy(() => import('../pages/About.jsx'))
+const Services = lazy(() => import('../pages/Services.jsx'))
 const NotFound = lazy(() => import('../pages/NotFound.jsx'))
 const Login = lazy(() => import('../pages/auth/Login.jsx'))
 const Dashboard = lazy(() => import('../pages/admin/Dashboard.jsx'))
 const ComingSoon = lazy(() => import('../pages/admin/ComingSoon.jsx'))
+const ServicesManagement = lazy(() => import('../pages/admin/ServicesManagement.jsx'))
 const Appearance = lazy(() => import('../pages/admin/settings/Appearance.jsx'))
 const LandingPageSettings = lazy(() => import('../pages/admin/settings/LandingPageSettings.jsx'))
+
+function getAdminElement(path) {
+  if (path === ROUTE_PATHS.dashboard) {
+    return <Dashboard />
+  }
+
+  if (path === ROUTE_PATHS.dashboardServices) {
+    return <ServicesManagement />
+  }
+
+  return <ComingSoon />
+}
 
 function AppRoutes() {
   const location = useLocation()
@@ -29,6 +43,7 @@ function AppRoutes() {
           <Route element={<PublicLayout />}>
             <Route path={ROUTE_PATHS.home} element={<LandingPage />} />
             <Route path={ROUTE_PATHS.about} element={<About />} />
+            <Route path={ROUTE_PATHS.services} element={<Services />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 
@@ -44,7 +59,7 @@ function AppRoutes() {
                   <Route
                     key={item.path}
                     path={item.path}
-                    element={item.path === ROUTE_PATHS.dashboard ? <Dashboard /> : <ComingSoon />}
+                    element={getAdminElement(item.path)}
                   />
                 ))}
 
