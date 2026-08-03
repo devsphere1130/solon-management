@@ -19,7 +19,7 @@ import { ROUTE_PATHS } from './routeConfig.js'
 export const adminNav = [
   { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { label: 'Appointments', path: ROUTE_PATHS.appointments, icon: Calendar },
-  { label: 'Calendar', path: '/calendar', icon: CalendarRange },
+  { label: 'Calendar', path: ROUTE_PATHS.calendar, icon: CalendarRange },
   { label: 'Customers', path: '/customers', icon: Users },
   { label: 'Services', path: ROUTE_PATHS.dashboardServices, icon: Scissors },
   { label: 'Staff', path: '/staff', icon: UserRound },
