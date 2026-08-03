@@ -1,0 +1,64 @@
+import { lazy, Suspense } from 'react'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import PublicLayout from '../layouts/PublicLayout.jsx'
+import AuthLayout from '../layouts/AuthLayout.jsx'
+import AdminLayout from '../layouts/AdminLayout.jsx'
+import SettingsLayout from '../layouts/SettingsLayout.jsx'
+import PageLoader from '../components/common/PageLoader.jsx'
+import ErrorBoundary from '../components/common/ErrorBoundary.jsx'
+import ProtectedRoute from './ProtectedRoute.jsx'
+import { adminNav } from './adminNav.js'
+import { ROUTE_PATHS } from './routeConfig.js'
+
+const LandingPage = lazy(() => import('../pages/LandingPage.jsx'))
+const About = lazy(() => import('../pages/About.jsx'))
+const NotFound = lazy(() => import('../pages/NotFound.jsx'))
+const Login = lazy(() => import('../pages/auth/Login.jsx'))
+const Dashboard = lazy(() => import('../pages/admin/Dashboard.jsx'))
+const ComingSoon = lazy(() => import('../pages/admin/ComingSoon.jsx'))
+const Appearance = lazy(() => import('../pages/admin/settings/Appearance.jsx'))
+const LandingPageSettings = lazy(() => import('../pages/admin/settings/LandingPageSettings.jsx'))
+
+function AppRoutes() {
+  const location = useLocation()
+
+  return (
+    <ErrorBoundary resetKey={location.pathname}>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route element={<PublicLayout />}>
+            <Route path={ROUTE_PATHS.home} element={<LandingPage />} />
+            <Route path={ROUTE_PATHS.about} element={<About />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+
+          <Route element={<AuthLayout />}>
+            <Route path={ROUTE_PATHS.login} element={<Login />} />
+          </Route>
+
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AdminLayout />}>
+              {adminNav
+                .filter((item) => item.path !== ROUTE_PATHS.settings)
+                .map((item) => (
+                  <Route
+                    key={item.path}
+                    path={item.path}
+                    element={item.path === ROUTE_PATHS.dashboard ? <Dashboard /> : <ComingSoon />}
+                  />
+                ))}
+
+              <Route path={ROUTE_PATHS.settings} element={<SettingsLayout />}>
+                <Route index element={<Navigate to={ROUTE_PATHS.settingsAppearance} replace />} />
+                <Route path="appearance" element={<Appearance />} />
+                <Route path="landing-page" element={<LandingPageSettings />} />
+              </Route>
+            </Route>
+          </Route>
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
+export default AppRoutes

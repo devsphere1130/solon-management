@@ -1,0 +1,29 @@
+import HeroSection from '../components/landing/HeroSection.jsx'
+import PromoBannerStrip from '../components/landing/PromoBannerStrip.jsx'
+import FeaturesSection from '../components/landing/FeaturesSection.jsx'
+import HowItWorksSection from '../components/landing/HowItWorksSection.jsx'
+import DashboardPreviewSection from '../components/landing/DashboardPreviewSection.jsx'
+import AnalyticsSection from '../components/landing/AnalyticsSection.jsx'
+import TestimonialsSection from '../components/landing/TestimonialsSection.jsx'
+import PricingSection from '../components/landing/PricingSection.jsx'
+import FAQSection from '../components/landing/FAQSection.jsx'
+import CTASection from '../components/landing/CTASection.jsx'
+
+function LandingPage() {
+  return (
+    <>
+      <HeroSection />
+      <PromoBannerStrip />
+      <FeaturesSection />
+      <HowItWorksSection />
+      <DashboardPreviewSection />
+      <AnalyticsSection />
+      <TestimonialsSection />
+      <PricingSection />
+      <FAQSection />
+      <CTASection />
+    </>
+  )
+}
+
+export default LandingPage

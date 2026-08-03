@@ -1,0 +1,33 @@
+import {
+  BarChart3,
+  Bell,
+  Boxes,
+  Calendar,
+  CalendarRange,
+  CreditCard,
+  LayoutDashboard,
+  Megaphone,
+  Package,
+  Receipt,
+  Scissors,
+  Settings,
+  UserRound,
+  Users,
+} from 'lucide-react'
+
+export const adminNav = [
+  { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+  { label: 'Appointments', path: '/appointments', icon: Calendar },
+  { label: 'Calendar', path: '/calendar', icon: CalendarRange },
+  { label: 'Customers', path: '/customers', icon: Users },
+  { label: 'Services', path: '/services', icon: Scissors },
+  { label: 'Staff', path: '/staff', icon: UserRound },
+  { label: 'Products', path: '/products', icon: Package },
+  { label: 'Inventory', path: '/inventory', icon: Boxes },
+  { label: 'Billing', path: '/billing', icon: Receipt },
+  { label: 'Payments', path: '/payments', icon: CreditCard },
+  { label: 'Reports', path: '/reports', icon: BarChart3 },
+  { label: 'Marketing', path: '/marketing', icon: Megaphone },
+  { label: 'Notifications', path: '/notifications', icon: Bell },
+  { label: 'Settings', path: '/settings', icon: Settings },
+]
