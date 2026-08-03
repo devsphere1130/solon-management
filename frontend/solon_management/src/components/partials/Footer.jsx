@@ -11,7 +11,7 @@ const footerColumns = [
       { label: 'Features', href: '#features' },
       { label: 'Services', href: ROUTE_PATHS.services },
       { label: 'Pricing', href: '#pricing' },
-      { label: 'How it works', href: '#how-it-works' },
+      { label: 'How it works', href: ROUTE_PATHS.howItWorks },
       { label: 'FAQ', href: '#faq' },
     ],
   },

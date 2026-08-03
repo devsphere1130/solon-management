@@ -11,7 +11,7 @@ import { cn } from '../../lib/cn.js'
 const navLinks = [
   { label: 'Features', href: '#features' },
   { label: 'Services', href: ROUTE_PATHS.services },
-  { label: 'How it works', href: '#how-it-works' },
+  { label: 'How it works', href: ROUTE_PATHS.howItWorks },
   { label: 'Pricing', href: '#pricing' },
   { label: 'FAQ', href: '#faq' },
   { label: 'About', href: ROUTE_PATHS.about },
