@@ -4,6 +4,7 @@ export const ROUTE_PATHS = Object.freeze({
   services: '/services',
   login: '/login',
   dashboard: '/dashboard',
+  appointments: '/appointments',
   dashboardServices: '/dashboard/services',
   settings: '/settings',
   settingsAppearance: '/settings/appearance',
