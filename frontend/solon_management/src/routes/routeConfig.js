@@ -13,6 +13,7 @@ export const ROUTE_PATHS = Object.freeze({
   calendar: '/calendar',
   customers: '/customers',
   staff: '/staff',
+  inventory: '/inventory',
   dashboardServices: '/dashboard/services',
   dashboardProducts: '/dashboard/products',
   settings: '/settings',

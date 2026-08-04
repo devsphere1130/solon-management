@@ -24,7 +24,7 @@ export const adminNav = [
   { label: 'Services', path: ROUTE_PATHS.dashboardServices, icon: Scissors },
   { label: 'Staff', path: ROUTE_PATHS.staff, icon: UserRound },
   { label: 'Products', path: ROUTE_PATHS.dashboardProducts, icon: Package },
-  { label: 'Inventory', path: '/inventory', icon: Boxes },
+  { label: 'Inventory', path: ROUTE_PATHS.inventory, icon: Boxes },
   { label: 'Billing', path: '/billing', icon: Receipt },
   { label: 'Payments', path: '/payments', icon: CreditCard },
   { label: 'Reports', path: '/reports', icon: BarChart3 },
