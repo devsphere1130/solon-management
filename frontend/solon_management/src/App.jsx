@@ -6,6 +6,7 @@ import { ProductCatalogProvider } from './context/ProductCatalogContext.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
 import { AppointmentsProvider } from './context/AppointmentsContext.jsx'
+import { GalleryProvider } from './context/GalleryContext.jsx'
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
           <ProductCatalogProvider>
             <WishlistProvider>
               <AppointmentsProvider>
-                <CartProvider>
-                  <AppRoutes />
-                </CartProvider>
+                <GalleryProvider>
+                  <CartProvider>
+                    <AppRoutes />
+                  </CartProvider>
+                </GalleryProvider>
               </AppointmentsProvider>
             </WishlistProvider>
           </ProductCatalogProvider>
