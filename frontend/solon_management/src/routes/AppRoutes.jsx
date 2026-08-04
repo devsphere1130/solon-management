@@ -18,6 +18,10 @@ const Products = lazy(() => import('../pages/Products.jsx'))
 const ProductDetails = lazy(() => import('../pages/ProductDetails.jsx'))
 const Cart = lazy(() => import('../pages/Cart.jsx'))
 const Wishlist = lazy(() => import('../pages/Wishlist.jsx'))
+const AccountDashboard = lazy(() => import('../pages/account/AccountDashboard.jsx'))
+const MyAppointments = lazy(() => import('../pages/account/MyAppointments.jsx'))
+const AppointmentDetails = lazy(() => import('../pages/account/AppointmentDetails.jsx'))
+const AccountPlaceholder = lazy(() => import('../pages/account/AccountPlaceholder.jsx'))
 const NotFound = lazy(() => import('../pages/NotFound.jsx'))
 const Login = lazy(() => import('../pages/auth/Login.jsx'))
 const Dashboard = lazy(() => import('../pages/admin/Dashboard.jsx'))
@@ -79,6 +83,13 @@ function AppRoutes() {
             <Route path={ROUTE_PATHS.productDetails} element={<ProductDetails />} />
             <Route path={ROUTE_PATHS.cart} element={<Cart />} />
             <Route path={ROUTE_PATHS.wishlist} element={<Wishlist />} />
+            <Route path={ROUTE_PATHS.account} element={<AccountDashboard />} />
+            <Route path={ROUTE_PATHS.accountAppointments} element={<MyAppointments />} />
+            <Route path={ROUTE_PATHS.accountAppointmentDetails} element={<AppointmentDetails />} />
+            <Route path={ROUTE_PATHS.accountOrders} element={<AccountPlaceholder />} />
+            <Route path={ROUTE_PATHS.accountWishlist} element={<AccountPlaceholder />} />
+            <Route path={ROUTE_PATHS.accountProfile} element={<AccountPlaceholder />} />
+            <Route path={ROUTE_PATHS.accountSettings} element={<AccountPlaceholder />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 

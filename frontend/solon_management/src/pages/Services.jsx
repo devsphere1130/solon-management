@@ -15,6 +15,7 @@ import {
   X,
 } from 'lucide-react'
 import Badge from '../components/common/Badge.jsx'
+import BookingFlow from '../components/booking/BookingFlow.jsx'
 import Button from '../components/common/Button.jsx'
 import Container from '../components/common/Container.jsx'
 import { useServiceImages } from '../context/useServiceImages.js'
@@ -201,7 +202,7 @@ function GalleryMainImage({ image, serviceName }) {
   )
 }
 
-function FeaturedGallery({ service, selectedIndex, onSelectImage, onOpenDetails }) {
+function FeaturedGallery({ service, selectedIndex, onSelectImage, onBookService }) {
   if (!service) {
     return null
   }
@@ -252,7 +253,7 @@ function FeaturedGallery({ service, selectedIndex, onSelectImage, onOpenDetails 
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#8b7a72]">Starting at</p>
                 <p className="mt-1 text-3xl font-extrabold text-[#9a5539]">{formatPrice(service.price)}</p>
               </div>
-              <Button type="button" size="lg" className="bg-[#241915] hover:bg-[#3a2a23]" onClick={() => onOpenDetails(service)}>
+              <Button type="button" size="lg" className="bg-[#241915] hover:bg-[#3a2a23]" onClick={() => onBookService(service)}>
                 Book Now
                 <CalendarDays className="size-4" aria-hidden="true" />
               </Button>
@@ -435,7 +436,7 @@ function ServicesSkeleton() {
   )
 }
 
-function ServiceDetailModal({ service, onClose }) {
+function ServiceDetailModal({ service, onClose, onBookService }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   useEffect(() => {
@@ -544,7 +545,7 @@ function ServiceDetailModal({ service, onClose }) {
               </ul>
             </div>
 
-            <Button type="button" size="lg" className="mt-8 w-full bg-[#241915] hover:bg-[#3a2a23]">
+            <Button type="button" size="lg" className="mt-8 w-full bg-[#241915] hover:bg-[#3a2a23]" onClick={() => onBookService(service)}>
               Book Now
               <CalendarDays className="size-4" aria-hidden="true" />
             </Button>
@@ -561,6 +562,7 @@ function Services() {
   const [featuredServiceId, setFeaturedServiceId] = useState(salonServices[0]?.id)
   const [featuredImageIndex, setFeaturedImageIndex] = useState(0)
   const [selectedService, setSelectedService] = useState(null)
+  const [bookingService, setBookingService] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -626,6 +628,12 @@ function Services() {
     setFeaturedServiceId(service.id)
   }
 
+  function handleBookService(service) {
+    setBookingService(service)
+    setSelectedService(null)
+    setFeaturedServiceId(service.id)
+  }
+
   return (
     <div className="bg-[#fffaf7]">
       <ServicesHeader />
@@ -635,7 +643,7 @@ function Services() {
           service={featuredService}
           selectedIndex={featuredImageIndex}
           onSelectImage={setFeaturedImageIndex}
-          onOpenDetails={handleOpenDetails}
+          onBookService={handleBookService}
         />
       )}
       <ServiceGrid
@@ -647,7 +655,11 @@ function Services() {
       />
 
       <AnimatePresence>
-        {selectedService && <ServiceDetailModal service={selectedService} onClose={() => setSelectedService(null)} />}
+        {selectedService && <ServiceDetailModal service={selectedService} onClose={() => setSelectedService(null)} onBookService={handleBookService} />}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {bookingService && <BookingFlow service={bookingService} onClose={() => setBookingService(null)} />}
       </AnimatePresence>
     </div>
   )
