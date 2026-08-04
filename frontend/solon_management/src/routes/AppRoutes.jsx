@@ -19,6 +19,8 @@ const Login = lazy(() => import('../pages/auth/Login.jsx'))
 const Dashboard = lazy(() => import('../pages/admin/Dashboard.jsx'))
 const Appointments = lazy(() => import('../pages/admin/Appointments.jsx'))
 const Calendar = lazy(() => import('../pages/admin/Calendar.jsx'))
+const Customers = lazy(() => import('../pages/admin/Customers.jsx'))
+const Staff = lazy(() => import('../pages/admin/Staff.jsx'))
 const ComingSoon = lazy(() => import('../pages/admin/ComingSoon.jsx'))
 const ServicesManagement = lazy(() => import('../pages/admin/ServicesManagement.jsx'))
 const Appearance = lazy(() => import('../pages/admin/settings/Appearance.jsx'))
@@ -39,6 +41,14 @@ function getAdminElement(path) {
 
   if (path === ROUTE_PATHS.calendar) {
     return <Calendar />
+  }
+
+  if (path === ROUTE_PATHS.customers) {
+    return <Customers />
+  }
+
+  if (path === ROUTE_PATHS.staff) {
+    return <Staff />
   }
 
   return <ComingSoon />
