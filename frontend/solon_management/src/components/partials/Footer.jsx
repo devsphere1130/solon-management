@@ -10,6 +10,8 @@ const footerColumns = [
     links: [
       { label: 'Features', href: '#features' },
       { label: 'Services', href: ROUTE_PATHS.services },
+      { label: 'Products', href: ROUTE_PATHS.products },
+      { label: 'Wishlist', href: ROUTE_PATHS.wishlist },
       { label: 'Pricing', href: '#pricing' },
       { label: 'How it works', href: ROUTE_PATHS.howItWorks },
       { label: 'FAQ', href: '#faq' },

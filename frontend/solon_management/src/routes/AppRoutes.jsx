@@ -14,6 +14,10 @@ const LandingPage = lazy(() => import('../pages/LandingPage.jsx'))
 const About = lazy(() => import('../pages/About.jsx'))
 const Services = lazy(() => import('../pages/Services.jsx'))
 const HowItWorks = lazy(() => import('../pages/HowItWorks.jsx'))
+const Products = lazy(() => import('../pages/Products.jsx'))
+const ProductDetails = lazy(() => import('../pages/ProductDetails.jsx'))
+const Cart = lazy(() => import('../pages/Cart.jsx'))
+const Wishlist = lazy(() => import('../pages/Wishlist.jsx'))
 const NotFound = lazy(() => import('../pages/NotFound.jsx'))
 const Login = lazy(() => import('../pages/auth/Login.jsx'))
 const Dashboard = lazy(() => import('../pages/admin/Dashboard.jsx'))
@@ -21,6 +25,7 @@ const Appointments = lazy(() => import('../pages/admin/Appointments.jsx'))
 const Calendar = lazy(() => import('../pages/admin/Calendar.jsx'))
 const ComingSoon = lazy(() => import('../pages/admin/ComingSoon.jsx'))
 const ServicesManagement = lazy(() => import('../pages/admin/ServicesManagement.jsx'))
+const ProductManagement = lazy(() => import('../pages/admin/ProductManagement.jsx'))
 const Appearance = lazy(() => import('../pages/admin/settings/Appearance.jsx'))
 const LandingPageSettings = lazy(() => import('../pages/admin/settings/LandingPageSettings.jsx'))
 
@@ -31,6 +36,10 @@ function getAdminElement(path) {
 
   if (path === ROUTE_PATHS.dashboardServices) {
     return <ServicesManagement />
+  }
+
+  if (path === ROUTE_PATHS.dashboardProducts) {
+    return <ProductManagement />
   }
 
   if (path === ROUTE_PATHS.appointments) {
@@ -56,6 +65,10 @@ function AppRoutes() {
             <Route path={ROUTE_PATHS.about} element={<About />} />
             <Route path={ROUTE_PATHS.services} element={<Services />} />
             <Route path={ROUTE_PATHS.howItWorks} element={<HowItWorks />} />
+            <Route path={ROUTE_PATHS.products} element={<Products />} />
+            <Route path={ROUTE_PATHS.productDetails} element={<ProductDetails />} />
+            <Route path={ROUTE_PATHS.cart} element={<Cart />} />
+            <Route path={ROUTE_PATHS.wishlist} element={<Wishlist />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 
