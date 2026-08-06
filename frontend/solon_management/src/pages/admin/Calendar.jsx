@@ -19,7 +19,7 @@ const workers = ['Neha Kapoor', 'Riya Mehta', 'Arjun Rao', 'Pooja Das']
 const statuses = ['Confirmed', 'Completed', 'Upcoming', 'Pending']
 
 const appointmentTemplates = [
-  { dayOffset: 0, time: '09:30 AM', client: 'Aarav Sharma', phone: '+91 98765 43210', service: 'Haircut & Styling', worker: 'Neha Kapoor', status: 'Confirmed' },
+  { dayOffset: 0, time: '09:30 AM', client: 'sarthak zaware', phone: '+91 98765 43210', service: 'Haircut & Styling', worker: 'Neha Kapoor', status: 'Confirmed' },
   { dayOffset: 0, time: '10:30 AM', client: 'Meera Iyer', phone: '+91 98234 56781', service: 'Bridal Makeup', worker: 'Riya Mehta', status: 'Upcoming' },
   { dayOffset: 0, time: '12:30 PM', client: 'Ananya Patel', phone: '+91 97654 32109', service: 'Hair Spa', worker: 'Neha Kapoor', status: 'Completed' },
   { dayOffset: 0, time: '03:30 PM', client: 'Sara Khan', phone: '+91 95432 10987', service: 'Manicure & Pedicure', worker: 'Pooja Das', status: 'Pending' },
