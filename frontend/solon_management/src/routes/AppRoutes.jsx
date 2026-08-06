@@ -80,6 +80,8 @@ function getAdminElement(path) {
 
   if (path === '/reports') {
     return <Reports />
+  }
+
   if (path === ROUTE_PATHS.billing) {
     return <Billing />
   }
