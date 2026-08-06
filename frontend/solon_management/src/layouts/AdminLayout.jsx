@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../components/partials/Sidebar.jsx'
 import AdminHeader from '../components/partials/AdminHeader.jsx'
+import { BillingProvider } from '../context/BillingContext.jsx'
 
 function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
   return (
+    <BillingProvider>
     <div className="flex min-h-screen bg-background">
       <Sidebar
         collapsed={collapsed}
@@ -23,6 +25,7 @@ function AdminLayout() {
         </main>
       </div>
     </div>
+    </BillingProvider>
   )
 }
 
