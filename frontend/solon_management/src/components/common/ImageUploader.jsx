@@ -9,7 +9,7 @@ const aspectClasses = {
   wide: 'aspect-[21/9]',
 }
 
-function ImageUploader({ label, description, image, aspect = 'video', accept = 'image/*', onUpload, onRemove, className }) {
+function ImageUploader({ label, description, image, aspect = 'video', accept = 'image/*', onUpload, onRemove, isDefault = false, className }) {
   const isVideo = image?.mimeType?.startsWith('video/')
   const inputRef = useRef(null)
   const [progress, setProgress] = useState(0)
@@ -75,6 +75,12 @@ function ImageUploader({ label, description, image, aspect = 'video', accept = '
           </button>
         )}
 
+        {image && isDefault && (
+          <span className="absolute top-2 left-2 rounded-full bg-black/60 px-2 py-1 text-[10px] font-semibold text-white">
+            Default
+          </span>
+        )}
+
         {isUploading && (
           <div className="absolute inset-x-0 bottom-0 h-1.5 bg-black/10">
             <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
@@ -93,8 +99,14 @@ function ImageUploader({ label, description, image, aspect = 'video', accept = '
       {image && (
         <div className="mt-2 flex items-center justify-between gap-2">
           <div className="min-w-0">
-            <p className="truncate text-xs font-medium text-text">{image.fileName}</p>
-            <p className="text-[11px] text-text-muted">{formatFileSize(image.fileSize)}</p>
+            {isDefault ? (
+              <p className="text-xs font-medium text-text-muted">Using the site default — upload your own to replace it.</p>
+            ) : (
+              <>
+                <p className="truncate text-xs font-medium text-text">{image.fileName}</p>
+                <p className="text-[11px] text-text-muted">{formatFileSize(image.fileSize)}</p>
+              </>
+            )}
           </div>
           <div className="flex shrink-0 gap-1.5">
             <button
@@ -105,14 +117,16 @@ function ImageUploader({ label, description, image, aspect = 'video', accept = '
               <ImagePlus className="size-3.5" aria-hidden="true" />
               Replace
             </button>
-            <button
-              type="button"
-              onClick={onRemove}
-              className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold text-danger hover:bg-danger/5"
-            >
-              <Trash2 className="size-3.5" aria-hidden="true" />
-              Remove
-            </button>
+            {!isDefault && (
+              <button
+                type="button"
+                onClick={onRemove}
+                className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold text-danger hover:bg-danger/5"
+              >
+                <Trash2 className="size-3.5" aria-hidden="true" />
+                Remove
+              </button>
+            )}
           </div>
         </div>
       )}
