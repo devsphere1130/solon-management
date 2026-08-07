@@ -2,6 +2,11 @@ import { X } from 'lucide-react'
 import ImageUploader from '../../../components/common/ImageUploader.jsx'
 import { useLandingImages } from '../../../context/LandingImagesContext.jsx'
 import { features } from '../../../data/landingContent.js'
+import defaultBannerVideo from '../../../assets/videos/banner.mp4'
+import defaultHeroImage from '../../../assets/img/hero.png'
+
+const defaultBannerVideoPreview = { dataUrl: defaultBannerVideo, mimeType: 'video/mp4' }
+const defaultHeroImagePreview = { dataUrl: defaultHeroImage, mimeType: 'image/png' }
 
 function SettingsCard({ title, description, children }) {
   return (
@@ -27,8 +32,9 @@ function LandingPageSettings() {
         <div className="grid gap-5 sm:grid-cols-2">
           <ImageUploader
             label="Hero image"
-            description="Replaces the product mockup panel."
-            image={images.hero}
+            description="Replaces the product mockup panel. Defaults to hero.png until you upload your own."
+            image={images.hero || (images.heroVideo ? null : defaultHeroImagePreview)}
+            isDefault={!images.hero && !images.heroVideo}
             aspect="video"
             onUpload={(file) => setImage('hero', file)}
             onRemove={() => removeImage('hero')}
@@ -52,8 +58,9 @@ function LandingPageSettings() {
           />
           <ImageUploader
             label="Hero background video"
-            description="Full-bleed looping video behind the hero content (max 50MB). Takes priority over Hero background when both are set."
-            image={images.heroBackgroundVideo}
+            description="Full-bleed looping video behind the hero content (max 50MB). Takes priority over Hero background when both are set. Defaults to banner.mp4 until you upload your own."
+            image={images.heroBackgroundVideo || (images.heroBackground ? null : defaultBannerVideoPreview)}
+            isDefault={!images.heroBackgroundVideo && !images.heroBackground}
             accept="video/*"
             aspect="video"
             onUpload={(file) => setImage('heroBackgroundVideo', file)}
