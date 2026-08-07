@@ -35,7 +35,7 @@ function LandingPageSettings() {
           />
           <ImageUploader
             label="Hero video"
-            description="Autoplay looping video in the mockup's place. Takes priority over Hero image when both are set."
+            description="Autoplay looping video in the mockup's place (max 50MB). Takes priority over Hero image when both are set."
             image={images.heroVideo}
             accept="video/*"
             aspect="video"
@@ -52,7 +52,7 @@ function LandingPageSettings() {
           />
           <ImageUploader
             label="Hero background video"
-            description="Full-bleed looping video behind the hero content. Takes priority over Hero background when both are set."
+            description="Full-bleed looping video behind the hero content (max 50MB). Takes priority over Hero background when both are set."
             image={images.heroBackgroundVideo}
             accept="video/*"
             aspect="video"

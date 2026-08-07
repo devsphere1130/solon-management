@@ -442,7 +442,7 @@ function ProductCard({ product, index, wishlist, onWishlist, onAddToCart, added,
         <div className="mt-3">
           <Rating rating={product.rating} reviewCount={product.reviewCount} />
         </div>
-        <div className="mt-4 flex items-baseline gap-2">
+        <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span className="text-xl font-extrabold text-[#241915]">{formatPrice(product.price)}</span>
           <span className="text-sm font-bold text-[#9a8b82] line-through">{formatPrice(product.originalPrice)}</span>
           <span className="rounded-full bg-[#edf1ea] px-2 py-1 text-xs font-extrabold text-[#4f664f]">{discount}% off</span>

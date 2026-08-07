@@ -44,6 +44,18 @@ import {
 
 const reportTabs = ['Overview', 'Revenue', 'Appointments', 'Services', 'Staff', 'Customers', 'Products', 'Payments', 'Expenses']
 
+// Overview/Appointments/Services render entirely from the core fetch below.
+// Everything else is fetched on demand the first time its tab is opened, so the
+// page doesn't pay for Staff/Customer/Product/Payment/Expense analytics up front.
+const tabRequirements = {
+  Revenue: ['discounts', 'losses'],
+  Staff: ['staff'],
+  Customers: ['customers'],
+  Products: ['products', 'inventory', 'crossSell'],
+  Payments: ['payments', 'discounts', 'losses'],
+  Expenses: ['profit', 'expenses'],
+}
+
 const emptyFilters = { location: '', staff: '', category: '', customerType: '', paymentMethod: '' }
 
 function DashboardSummary({ summary }) {
@@ -137,45 +149,38 @@ function Reports() {
   const [detail, setDetail] = useState(null)
   const [exportModal, setExportModal] = useState(null)
 
-  const loadReports = useCallback(async () => {
+  const [loadedKeys, setLoadedKeys] = useState(new Set())
+  const [tabLoading, setTabLoading] = useState(false)
+
+  const loaders = {
+    staff: [getStaffPerformance, setStaff],
+    customers: [getCustomerInsights, setCustomers],
+    products: [getProductPerformance, setProducts],
+    inventory: [getInventoryReport, setInventory],
+    payments: [getPaymentReport, setPayments],
+    discounts: [getDiscountReport, setDiscounts],
+    losses: [getCancellationReport, setLosses],
+    profit: [getProfitReport, setProfit],
+    expenses: [getExpenseReport, setExpenses],
+    crossSell: [getCrossSellInsights, setCrossSell],
+  }
+
+  // Core data every page load needs: the always-visible summary/KPIs/insights plus
+  // whatever the default Overview tab shows. Everything else loads lazily per tab
+  // below, so the page isn't waiting on Staff/Customer/Product/Payment/Expense
+  // analytics the visitor may never open.
+  const loadCore = useCallback(async () => {
     setLoading(true)
     setError(false)
     try {
       const requestFilters = { date_from: dateRange, ...filters }
-      const [
-        overviewData,
-        revenueData,
-        servicesData,
-        appointmentsData,
-        peakHoursData,
-        staffData,
-        customersData,
-        productsData,
-        inventoryData,
-        paymentsData,
-        discountsData,
-        lossesData,
-        profitData,
-        expensesData,
-        insightsData,
-        crossSellData,
-      ] = await Promise.all([
+      const [overviewData, revenueData, servicesData, appointmentsData, peakHoursData, insightsData] = await Promise.all([
         getReportsOverview(requestFilters),
         getRevenueReport(requestFilters),
         getServicePerformance(requestFilters),
         getAppointmentReport(requestFilters),
         getPeakHoursReport(requestFilters),
-        getStaffPerformance(requestFilters),
-        getCustomerInsights(requestFilters),
-        getProductPerformance(requestFilters),
-        getInventoryReport(requestFilters),
-        getPaymentReport(requestFilters),
-        getDiscountReport(requestFilters),
-        getCancellationReport(requestFilters),
-        getProfitReport(requestFilters),
-        getExpenseReport(requestFilters),
         getBusinessInsights(requestFilters),
-        getCrossSellInsights(requestFilters),
       ])
 
       setOverview(overviewData)
@@ -183,17 +188,8 @@ function Reports() {
       setServices(servicesData)
       setAppointments(appointmentsData)
       setPeakHours(peakHoursData)
-      setStaff(staffData)
-      setCustomers(customersData)
-      setProducts(productsData)
-      setInventory(inventoryData)
-      setPayments(paymentsData)
-      setDiscounts(discountsData)
-      setLosses(lossesData)
-      setProfit(profitData)
-      setExpenses(expensesData)
       setInsights(insightsData)
-      setCrossSell(crossSellData)
+      setLoadedKeys(new Set())
     } catch {
       setError(true)
     } finally {
@@ -202,8 +198,37 @@ function Reports() {
   }, [dateRange, filters])
 
   useEffect(() => {
-    loadReports()
-  }, [loadReports])
+    loadCore()
+  }, [loadCore])
+
+  useEffect(() => {
+    if (loading) return undefined
+
+    const required = tabRequirements[activeTab] ?? []
+    const missing = required.filter((key) => !loadedKeys.has(key))
+    if (!missing.length) return undefined
+
+    let cancelled = false
+    setTabLoading(true)
+    const requestFilters = { date_from: dateRange, ...filters }
+
+    Promise.all(missing.map((key) => loaders[key][0](requestFilters)))
+      .then((results) => {
+        if (cancelled) return
+        results.forEach((data, index) => loaders[missing[index]][1](data))
+        setLoadedKeys((previous) => new Set([...previous, ...missing]))
+      })
+      .finally(() => {
+        if (!cancelled) setTabLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, dateRange, filters, loading, loadedKeys])
+
+  const tabReady = (tab) => (tabRequirements[tab] ?? []).every((key) => loadedKeys.has(key))
 
   const handleExport = (format) => {
     // API-ready: this will call export service when backend is available.
@@ -235,7 +260,7 @@ function Reports() {
       <div className="space-y-6">
         <ReportsHeader dateRange={dateRange} onDateRangeChange={setDateRange} onExport={handleExport} onPrint={handlePrint} />
         <div className="rounded-2xl border border-border bg-card shadow-soft">
-          <ReportErrorState onRetry={loadReports} />
+          <ReportErrorState onRetry={loadCore} />
         </div>
       </div>
     )
@@ -286,6 +311,10 @@ function Reports() {
 
           <AnimatePresence mode="wait">
             <motion.div key={activeTab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.15 }}>
+              {tabLoading && !tabReady(activeTab) ? (
+                <ReportSkeleton />
+              ) : (
+                <>
               {activeTab === 'Overview' && (
                 <div className="space-y-4">
                   <RevenueReport data={revenue} />
@@ -336,6 +365,8 @@ function Reports() {
 
               {activeTab === 'Expenses' && (
                 <ProfitReport profit={profit} expenses={expenses} />
+              )}
+                </>
               )}
             </motion.div>
           </AnimatePresence>

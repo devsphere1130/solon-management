@@ -2,7 +2,7 @@
 // Swap each mock resolver for api.get('/reports/...') when the backend is ready.
 // Filters are passed consistently: date_from, date_to, staff_id, service_id, category, payment_method.
 
-const MOCK_DELAY = 650
+const MOCK_DELAY = 0
 
 const salonType = 'unisex' // men | women | unisex — driven by salon configuration
 
@@ -256,9 +256,9 @@ const mockCrossSell = [
 ]
 
 function resolve(data) {
-  return new Promise((resolvePromise) => {
-    setTimeout(() => resolvePromise(JSON.parse(JSON.stringify(data))), MOCK_DELAY)
-  })
+  const cloned = JSON.parse(JSON.stringify(data))
+  if (!MOCK_DELAY) return Promise.resolve(cloned)
+  return new Promise((resolvePromise) => setTimeout(() => resolvePromise(cloned), MOCK_DELAY))
 }
 
 // API-ready resolvers — each accepts a filters object for future backend integration.

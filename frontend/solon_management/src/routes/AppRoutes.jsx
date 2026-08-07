@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import PublicLayout from '../layouts/PublicLayout.jsx'
 import AuthLayout from '../layouts/AuthLayout.jsx'
@@ -100,6 +100,14 @@ function getAdminElement(path) {
 
 function AppRoutes() {
   const location = useLocation()
+
+  // Reset scroll position on every route change so navigating from partway down one
+  // page doesn't land you partway down the next. Skipped when a hash is present so
+  // in-page anchor links (e.g. Features/Pricing/FAQ) can still scroll to that section.
+  useEffect(() => {
+    if (location.hash) return
+    window.scrollTo(0, 0)
+  }, [location.pathname, location.hash])
 
   return (
     <ErrorBoundary resetKey={location.pathname}>

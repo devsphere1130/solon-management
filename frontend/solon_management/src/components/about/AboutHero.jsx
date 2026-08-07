@@ -18,7 +18,7 @@ function AboutHero() {
         aria-hidden="true"
       />
 
-      <Container className="relative grid gap-16 py-24 lg:grid-cols-[45fr_55fr] lg:items-center lg:py-32">
+      <Container className="relative grid grid-cols-1 gap-16 py-24 lg:grid-cols-[45fr_55fr] lg:items-center lg:py-32">
         <div>
           <motion.span
             initial={{ opacity: 0, y: 10 }}
