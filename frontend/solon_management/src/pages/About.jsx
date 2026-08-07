@@ -1,31 +1,36 @@
-import Container from '../components/common/Container.jsx'
-import Badge from '../components/common/Badge.jsx'
-import { useLandingImages } from '../context/LandingImagesContext.jsx'
-import { cn } from '../lib/cn.js'
+import AboutHero from '../components/about/AboutHero.jsx'
+import OurStory from '../components/about/OurStory.jsx'
+import WhyDevSphere from '../components/about/WhyDevSphere.jsx'
+import PlatformDifference from '../components/about/PlatformDifference.jsx'
+import SalonTypes from '../components/about/SalonTypes.jsx'
+import PeopleSection from '../components/about/PeopleSection.jsx'
+import CustomerJourneyTimeline from '../components/about/CustomerJourneyTimeline.jsx'
+import OwnerExperience from '../components/about/OwnerExperience.jsx'
+import IntelligenceSection from '../components/about/IntelligenceSection.jsx'
+import TrustSection from '../components/about/TrustSection.jsx'
+import BrandValues from '../components/about/BrandValues.jsx'
+import VisualManifesto from '../components/about/VisualManifesto.jsx'
+import AboutGallery from '../components/about/AboutGallery.jsx'
+import AboutFinalCTA from '../components/about/AboutFinalCTA.jsx'
 
 function About() {
-  const { images } = useLandingImages()
-  const hasImage = Boolean(images.about)
-
   return (
-    <Container as="section" className={cn('py-24', hasImage ? 'max-w-5xl' : 'max-w-3xl')}>
-      <div className={cn(hasImage && 'grid items-center gap-12 lg:grid-cols-2')}>
-        <div>
-          <Badge>About DevSphere</Badge>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-text sm:text-4xl">
-            Built for salons that run on precision
-          </h1>
-          <p className="mt-5 text-base leading-relaxed text-text-muted">
-            DevSphere is a premium management platform for salons and spas — bringing appointments, customers, staff,
-            billing and inventory into one calm, connected workspace so teams can spend less time on admin and more
-            time delighting clients.
-          </p>
-        </div>
-        {hasImage && (
-          <img src={images.about.dataUrl} alt="" className="aspect-square w-full rounded-3xl object-cover shadow-soft" />
-        )}
-      </div>
-    </Container>
+    <>
+      <AboutHero />
+      <OurStory />
+      <WhyDevSphere />
+      <PlatformDifference />
+      <SalonTypes />
+      <PeopleSection />
+      <CustomerJourneyTimeline />
+      <OwnerExperience />
+      <IntelligenceSection />
+      <TrustSection />
+      <BrandValues />
+      <VisualManifesto />
+      <AboutGallery />
+      <AboutFinalCTA />
+    </>
   )
 }
 

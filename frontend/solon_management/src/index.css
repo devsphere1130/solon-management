@@ -46,7 +46,33 @@
   }
 }
 
+@keyframes marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes marquee-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 @layer utilities {
+  .animate-marquee-up {
+    animation: marquee-up 36s linear infinite;
+  }
+
+  .animate-marquee-down {
+    animation: marquee-down 42s linear infinite;
+  }
+
   .premium-scrollbar {
     scrollbar-color: rgba(160, 90, 63, 0.38) transparent;
     scrollbar-width: thin;
@@ -79,5 +105,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-marquee-up,
+  .animate-marquee-down {
+    animation: none !important;
   }
 }
