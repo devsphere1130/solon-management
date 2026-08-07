@@ -1,57 +1,39 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { AreaChart, Area, ResponsiveContainer } from 'recharts'
-import { ArrowRight, CalendarCheck, Sparkles, TrendingUp } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import Container from '../common/Container.jsx'
 import { buttonClasses } from '../../lib/buttonClasses.js'
-import { kpis, analyticsSummary } from '../../data/landingContent.js'
 import { ROUTE_PATHS } from '../../routes/routeConfig.js'
 import { useLandingImages } from '../../context/LandingImagesContext.jsx'
-
-const heroChartData = analyticsSummary.revenueSeries
-
-function FloatingBadge({ className, delay = 0, children }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
-      transition={{
-        opacity: { duration: 0.5, delay },
-        scale: { duration: 0.5, delay },
-        y: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay },
-      }}
-      className={`absolute z-20 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/95 px-4 py-3 shadow-soft backdrop-blur ${className}`}
-    >
-      {children}
-    </motion.div>
-  )
-}
+import defaultBannerVideo from '../../assets/videos/banner.mp4'
+import defaultHeroImage from '../../assets/img/hero.png'
 
 function HeroSection() {
   const { images } = useLandingImages()
 
   return (
     <section className="relative overflow-hidden bg-secondary">
-      {(images.heroBackgroundVideo || images.heroBackground) && (
+      {images.heroBackgroundVideo || !images.heroBackground ? (
         <>
-          {images.heroBackgroundVideo ? (
-            <video
-              src={images.heroBackgroundVideo.dataUrl}
-              muted
-              loop
-              autoPlay
-              playsInline
-              className="absolute inset-0 size-full object-cover"
-              aria-hidden="true"
-            />
-          ) : (
-            <img
-              src={images.heroBackground.dataUrl}
-              alt=""
-              className="absolute inset-0 size-full object-cover"
-              aria-hidden="true"
-            />
-          )}
+          <video
+            src={images.heroBackgroundVideo?.dataUrl || defaultBannerVideo}
+            muted
+            loop
+            autoPlay
+            playsInline
+            className="absolute inset-0 size-full object-cover"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-secondary/80" aria-hidden="true" />
+        </>
+      ) : (
+        <>
+          <img
+            src={images.heroBackground.dataUrl}
+            alt=""
+            className="absolute inset-0 size-full object-cover"
+            aria-hidden="true"
+          />
           <div className="absolute inset-0 bg-secondary/80" aria-hidden="true" />
         </>
       )}
@@ -141,69 +123,13 @@ function HeroSection() {
               playsInline
               className="relative mt-10 aspect-video w-full rounded-3xl border border-white/10 object-cover shadow-2xl"
             />
-          ) : images.hero ? (
+          ) : (
             <img
-              src={images.hero.dataUrl}
+              src={images.hero?.dataUrl || defaultHeroImage}
               alt=""
               className="relative mt-10 aspect-video w-full rounded-3xl border border-white/10 object-cover shadow-2xl"
             />
-          ) : (
-            <div className="relative mt-10 rounded-3xl border border-white/10 bg-white p-5 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-border pb-4">
-                <div>
-                  <p className="text-xs font-semibold text-text-muted">Overview</p>
-                  <p className="text-sm font-bold text-text">Today, Aug 2</p>
-                </div>
-                <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <TrendingUp className="size-4" aria-hidden="true" />
-                </span>
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                {kpis.slice(0, 2).map((kpi) => (
-                  <div key={kpi.label} className="rounded-2xl bg-background p-4">
-                    <p className="text-xs text-text-muted">{kpi.label}</p>
-                    <p className="mt-1 text-lg font-extrabold text-text">{kpi.value}</p>
-                    <p className="mt-1 text-xs font-semibold text-success">{kpi.change}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 h-28 rounded-2xl bg-background p-3">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={heroChartData} margin={{ top: 8, right: 4, bottom: 0, left: 4 }}>
-                    <defs>
-                      <linearGradient id="hero-revenue" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="var(--color-primary)" stopOpacity={0.35} />
-                        <stop offset="100%" stopColor="var(--color-primary)" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <Area type="monotone" dataKey="revenue" stroke="var(--color-primary)" strokeWidth={2} fill="url(#hero-revenue)" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
           )}
-
-          <FloatingBadge className="-top-6 -left-6" delay={0.6}>
-            <span className="flex size-9 items-center justify-center rounded-xl bg-success/10 text-success">
-              <CalendarCheck className="size-4" aria-hidden="true" />
-            </span>
-            <div>
-              <p className="text-xs font-semibold text-text">Appointment confirmed</p>
-              <p className="text-[11px] text-text-muted">Ananya · Hair Spa</p>
-            </div>
-          </FloatingBadge>
-
-          <FloatingBadge className="-right-4 -bottom-6 sm:-right-8" delay={0.9}>
-            <span className="flex size-9 items-center justify-center rounded-xl bg-accent/15 text-accent-foreground">
-              <TrendingUp className="size-4" aria-hidden="true" />
-            </span>
-            <div>
-              <p className="text-xs font-semibold text-text">Revenue up 18.4%</p>
-              <p className="text-[11px] text-text-muted">vs last month</p>
-            </div>
-          </FloatingBadge>
         </motion.div>
       </Container>
     </section>
