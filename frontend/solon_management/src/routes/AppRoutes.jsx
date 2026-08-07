@@ -34,6 +34,7 @@ const Inventory = lazy(() => import('../pages/admin/Inventory.jsx'))
 const Reports = lazy(() => import('../pages/admin/Reports.jsx'))
 const Billing = lazy(() => import('../pages/admin/Billing.jsx'))
 const Payments = lazy(() => import('../pages/admin/Payments.jsx'))
+const Marketing = lazy(() => import('../pages/admin/Marketing.jsx'))
 const ComingSoon = lazy(() => import('../pages/admin/ComingSoon.jsx'))
 const ServicesManagement = lazy(() => import('../pages/admin/ServicesManagement.jsx'))
 const ProductManagement = lazy(() => import('../pages/admin/ProductManagement.jsx'))
@@ -88,6 +89,10 @@ function getAdminElement(path) {
 
   if (path === ROUTE_PATHS.payments) {
     return <Payments />
+  }
+
+  if (path === '/marketing') {
+    return <Marketing />
   }
 
   return <ComingSoon />
