@@ -31,6 +31,6 @@ export const adminNav = [
   { label: 'Payments', path: ROUTE_PATHS.payments, icon: CreditCard },
   { label: 'Reports', path: '/reports', icon: BarChart3 },
   { label: 'Marketing', path: '/marketing', icon: Megaphone },
-  { label: 'Notifications', path: '/notifications', icon: Bell },
+  // { label: 'Notifications', path: '/notifications', icon: Bell },
   { label: 'Settings', path: '/settings', icon: Settings },
 ]
