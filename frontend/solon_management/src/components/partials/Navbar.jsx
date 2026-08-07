@@ -240,9 +240,19 @@ function Navbar() {
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {navLinks.map((link) =>
             isHashLink(link.href) ? (
-              <a key={link.label} href={link.href} className="text-sm font-semibold text-text-muted transition-colors hover:text-text">
-                {link.label}
-              </a>
+              location.pathname === ROUTE_PATHS.home ? (
+                <a key={link.label} href={link.href} className="text-sm font-semibold text-text-muted transition-colors hover:text-text">
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.label}
+                  to={`${ROUTE_PATHS.home}${link.href}`}
+                  className="text-sm font-semibold text-text-muted transition-colors hover:text-text"
+                >
+                  {link.label}
+                </Link>
+              )
             ) : (
               <NavLink
                 key={link.label}
@@ -361,14 +371,25 @@ function Navbar() {
             <Container className="flex flex-col gap-1 py-4">
               {navLinks.map((link) =>
                 isHashLink(link.href) ? (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="rounded-lg px-3 py-3 text-sm font-semibold text-text-muted hover:bg-background hover:text-text"
-                  >
-                    {link.label}
-                  </a>
+                  location.pathname === ROUTE_PATHS.home ? (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="rounded-lg px-3 py-3 text-sm font-semibold text-text-muted hover:bg-background hover:text-text"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.label}
+                      to={`${ROUTE_PATHS.home}${link.href}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="rounded-lg px-3 py-3 text-sm font-semibold text-text-muted hover:bg-background hover:text-text"
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 ) : (
                   <NavLink
                     key={link.label}
