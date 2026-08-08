@@ -226,6 +226,7 @@ function Navbar() {
   }
 
   return (
+    <>
     <header
       className={cn(
         'sticky top-0 z-40 transition-all duration-300',
@@ -461,8 +462,9 @@ function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
+    <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+    </>
   )
 }
 
