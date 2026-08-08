@@ -387,7 +387,7 @@ function ProductManagement() {
       )}
 
       <div className="grid gap-6 xl:grid-cols-[20rem_minmax(0,1fr)]">
-        <aside className="rounded-2xl border border-border bg-card p-4 shadow-soft">
+        <aside className="min-w-0 rounded-2xl border border-border bg-card p-4 shadow-soft">
           <div className="mb-4 flex items-center justify-between gap-3">
             <h2 className="text-sm font-extrabold text-text">Catalog</h2>
             <Button type="button" size="sm" onClick={handleNewProduct}>
@@ -415,8 +415,8 @@ function ProductManagement() {
           </div>
         </aside>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
-          <div className="space-y-6">
+        <section className="min-w-0 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+          <div className="min-w-0 space-y-6">
             <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
               <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                 <div>
@@ -589,7 +589,7 @@ function ProductManagement() {
             </div>
           </div>
 
-          <aside className="space-y-4">
+          <aside className="min-w-0 space-y-4">
             <ProductCardPreview product={draft} />
             <div className="rounded-2xl border border-border bg-card p-4 shadow-soft">
               <h2 className="text-sm font-extrabold text-text">Admin notes</h2>

@@ -463,7 +463,7 @@ function ProductCard({ product, index, wishlist, onWishlist, onAddToCart, added,
 
 function ProductSkeletonGrid() {
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {Array.from({ length: 8 }).map((_, index) => (
         <div key={index} className="min-h-[28rem] overflow-hidden rounded-[1.35rem] border border-[#eadfd6] bg-white">
           <div className="aspect-square animate-pulse bg-[#f1e5dc]" />
@@ -505,7 +505,7 @@ function ProductGrid({ productsList, isLoading, wishlist, addedIds, onWishlist, 
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {productsList.map((product, index) => (
         <ProductCard
           key={product.id}

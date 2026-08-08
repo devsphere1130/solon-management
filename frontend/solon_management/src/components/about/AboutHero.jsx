@@ -10,11 +10,11 @@ function AboutHero() {
   return (
     <section className="relative overflow-hidden bg-secondary">
       <div
-        className="pointer-events-none absolute -top-32 -right-32 size-[28rem] rounded-full bg-primary/40 blur-3xl"
+        className="pointer-events-none absolute -top-32 right-0 size-56 rounded-full bg-primary/40 blur-3xl sm:-right-32 sm:size-[28rem]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -bottom-40 -left-24 size-[24rem] rounded-full bg-accent/25 blur-3xl"
+        className="pointer-events-none absolute -bottom-40 left-0 size-52 rounded-full bg-accent/25 blur-3xl sm:-left-24 sm:size-[24rem]"
         aria-hidden="true"
       />
 

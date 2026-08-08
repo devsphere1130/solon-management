@@ -55,17 +55,17 @@ function Dashboard() {
         variants={gridVariants}
         initial="hidden"
         animate="visible"
-        className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4"
+        className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {overview.kpis.map((kpi) => (
           <motion.div
             key={kpi.label}
             variants={cardVariants}
             whileHover={{ y: -3 }}
-            className="rounded-2xl border border-border bg-card p-5 shadow-soft"
+            className="min-w-0 rounded-2xl border border-border bg-card p-5 shadow-soft"
           >
             <p className="text-xs text-text-muted">{kpi.label}</p>
-            <p className="mt-1.5 text-2xl font-extrabold text-text">{kpi.value}</p>
+            <p className="mt-1.5 truncate text-2xl font-extrabold text-text" title={kpi.value}>{kpi.value}</p>
             <p className="mt-1.5 text-xs font-semibold text-success">
               {kpi.change} <span className="font-normal text-text-muted">{kpi.period}</span>
             </p>
@@ -146,13 +146,13 @@ function Dashboard() {
           <ul className="mt-4 space-y-4">
             {overview.upcomingAppointments.map((appt) => (
               <li key={appt.customer} className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm font-semibold text-text">{appt.customer}</p>
-                  <p className="text-xs text-text-muted">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-text">{appt.customer}</p>
+                  <p className="truncate text-xs text-text-muted">
                     {appt.service} · {appt.staff}
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="shrink-0 text-right">
                   <p className="text-xs font-semibold text-text">{appt.time}</p>
                   <Badge variant={statusVariant[appt.status] ?? 'default'} className="mt-1">
                     {appt.status}

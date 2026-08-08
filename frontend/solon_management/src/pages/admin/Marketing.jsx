@@ -136,7 +136,7 @@ function Marketing() {
 
       <section className="rounded-2xl border border-border bg-card p-5 shadow-soft">
         <div className="mb-4"><h2 className="text-sm font-bold text-text">Audience segments</h2><p className="mt-0.5 text-xs text-text-muted">Ready-made customer groups you can target.</p></div>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">{segments.map(({ label, value, icon: Icon, tone }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-border p-4"><span className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${tone}`}><Icon className="size-5" /></span><div><p className="text-lg font-extrabold text-text">{value}</p><p className="text-xs text-text-muted">{label}</p></div></div>)}</div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">{segments.map(({ label, value, icon: Icon, tone }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-border p-4"><span className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${tone}`}><Icon className="size-5" /></span><div className="min-w-0"><p className="truncate text-lg font-extrabold text-text">{value}</p><p className="truncate text-xs text-text-muted">{label}</p></div></div>)}</div>
       </section>
 
       <section className="rounded-2xl border border-border bg-card p-4 shadow-soft"><div className="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(260px,1fr)_180px_180px_auto]">

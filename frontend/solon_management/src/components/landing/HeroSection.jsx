@@ -89,11 +89,17 @@ function HeroSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-9 flex flex-col gap-3 sm:flex-row"
           >
-            <Link to={ROUTE_PATHS.login} className={buttonClasses({ variant: 'accent', size: 'lg', className: 'group' })}>
+            <Link
+              to={ROUTE_PATHS.login}
+              className={buttonClasses({ variant: 'accent', size: 'lg', className: 'group lg:min-h-16 lg:px-9 lg:text-lg' })}
+            >
               Start free trial
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5 lg:size-5" aria-hidden="true" />
             </Link>
-            <a href="#how-it-works" className={buttonClasses({ variant: 'outline', size: 'lg', className: 'border-white/25 text-white hover:bg-white/10' })}>
+            <a
+              href="#how-it-works"
+              className={buttonClasses({ variant: 'outline', size: 'lg', className: 'border-white/25 text-white hover:bg-white/10 lg:min-h-16 lg:px-9 lg:text-lg' })}
+            >
               See how it works
             </a>
           </motion.div>

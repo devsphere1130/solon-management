@@ -64,7 +64,7 @@ function GalleryHero({ item, onExplore, onOpen }) {
 
   return (
     <section className="relative overflow-hidden bg-[#fffaf7] py-10 sm:py-14">
-      <Container className="grid gap-8 lg:grid-cols-[0.72fr_1fr] lg:items-end">
+      <Container className="grid grid-cols-1 gap-8 lg:grid-cols-[0.72fr_1fr] lg:items-end">
         <div className="max-w-2xl">
           <Badge className="border border-[#d6b493] bg-[#f8eadc] text-[#8a4d32]">Our Gallery</Badge>
           <h1 className="mt-5 text-4xl font-extrabold leading-tight text-[#241915] sm:text-5xl lg:text-6xl">
@@ -124,7 +124,7 @@ function FeaturedGallery({ items, onOpen }) {
           <p className="max-w-md text-sm leading-6 text-[#6f5f57]">Selected visuals that show the service, atmosphere, and craft customers can expect.</p>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-[1.35fr_0.8fr]">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.35fr_0.8fr]">
           <FeaturedCard item={primary} large onOpen={onOpen} />
           <div className="grid gap-4">
             {sideItems.map((item) => (
@@ -161,7 +161,7 @@ function GalleryFilters({ activeCategory, onCategory, activeType, onType }) {
   return (
     <section className="sticky top-18 z-20 border-y border-[#eadfd6] bg-[#fffaf7]/94 backdrop-blur">
       <Container className="py-4">
-        <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
           <label className="sm:hidden">
             <span className="sr-only">Filter gallery</span>
             <select
@@ -297,7 +297,7 @@ function BeforeAfterSlider({ item, onOpen }) {
           <p className="max-w-md text-sm leading-6 text-[#6f5f57]">Drag the divider to compare the before and after result.</p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_0.46fr] lg:items-center">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.46fr] lg:items-center">
           <div className="relative aspect-[16/10] overflow-hidden rounded-[1.75rem] border border-[#eadfd6] bg-[#f3e8df] shadow-soft">
             <GalleryImage src={item.afterImage} alt={`${item.title} after`} className="absolute inset-0 size-full object-cover" />
             <div className="absolute inset-0 overflow-hidden" style={{ width: `${value}%` }}>
@@ -338,6 +338,10 @@ function BeforeAfterSlider({ item, onOpen }) {
 function ExperienceSection({ items, onOpen }) {
   if (!items.length) return null
 
+  const visibleItems = items.slice(0, 5)
+  // The first tile spans 2 columns, so the row needs (count + 1) tracks — capped at the 5-column design.
+  const lgColumns = Math.min(visibleItems.length + 1, 5)
+
   return (
     <section className="py-14 sm:py-18">
       <Container>
@@ -345,8 +349,11 @@ function ExperienceSection({ items, onOpen }) {
           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9b5639]">The Salon Experience</p>
           <h2 className="mt-2 text-3xl font-extrabold text-[#241915]">Step inside our world.</h2>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {items.slice(0, 5).map((item, index) => (
+        <div
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[repeat(var(--exp-cols),minmax(0,1fr))]"
+          style={{ '--exp-cols': lgColumns }}
+        >
+          {visibleItems.map((item, index) => (
             <button
               type="button"
               key={item.id}
@@ -376,7 +383,7 @@ function TeamSection({ onProfessional }) {
             <h2 className="mt-2 text-3xl font-extrabold text-[#241915]">The people behind the craft.</h2>
           </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {galleryProfessionals.map((professional) => (
             <article key={professional.id} className="overflow-hidden rounded-[1.35rem] border border-[#eadfd6] bg-[#fffaf7] shadow-soft">
               <GalleryImage src={professional.image} alt={professional.name} className="aspect-[4/3] w-full object-cover" />
@@ -406,7 +413,7 @@ function AlbumSection({ albums, media, onOpen }) {
           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9b5639]">Albums</p>
           <h2 className="mt-2 text-3xl font-extrabold text-[#241915]">Salon moments and collections</h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {albums.map((album) => {
             const albumItems = media.filter((item) => item.albumId === album.id)
             const cover = media.find((item) => item.id === album.coverMediaId) ?? albumItems[0]
@@ -709,19 +716,23 @@ function Gallery() {
           </div>
 
           {filteredMedia.length > 0 ? (
-            <motion.div layout className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+            <motion.div
+              layout
+              className="premium-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-3 xl:grid-cols-4"
+            >
               {filteredMedia.map((item, index) => (
-                <MediaCard
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  liked={likedIds.includes(item.id)}
-                  saved={savedIds.includes(item.id)}
-                  onLike={toggleLike}
-                  onSave={handleSave}
-                  onShare={handleShare}
-                  onOpen={setLightboxItem}
-                />
+                <div key={item.id} className="w-[78%] shrink-0 snap-center sm:w-auto sm:shrink">
+                  <MediaCard
+                    item={item}
+                    index={index}
+                    liked={likedIds.includes(item.id)}
+                    saved={savedIds.includes(item.id)}
+                    onLike={toggleLike}
+                    onSave={handleSave}
+                    onShare={handleShare}
+                    onOpen={setLightboxItem}
+                  />
+                </div>
               ))}
             </motion.div>
           ) : (

@@ -78,14 +78,14 @@ function CustomerInsights({ data }) {
           <div>
             <h3 className="text-sm font-bold text-text">Customer Segments</h3>
             <p className="mt-1 text-xs text-text-muted">Group customers by behaviour and value</p>
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {segments.map((segment) => (
-                <div key={segment.id} className="rounded-xl border border-border p-4">
+                <div key={segment.id} className="min-w-0 rounded-xl border border-border p-4">
                   <Badge variant={segment.tone === 'primary' ? 'default' : segment.tone === 'accent' ? 'accent' : segment.tone} className="mb-2">
                     {segment.label}
                   </Badge>
                   <p className="text-xl font-extrabold text-text">{segment.count}</p>
-                  <div className="mt-3 flex gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2">
                     <Button type="button" variant="ghost" size="sm" className="h-8 px-3 text-xs">
                       <Users className="size-3.5" aria-hidden="true" />
                       View

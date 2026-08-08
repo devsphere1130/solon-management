@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
@@ -6,17 +6,12 @@ import {
   Heart,
   Image as ImageIcon,
   MapPin,
+  Pause,
+  Play,
   Search,
   Sparkles,
 } from 'lucide-react'
-import {
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import Badge from '../components/common/Badge.jsx'
 import Button from '../components/common/Button.jsx'
 import Container from '../components/common/Container.jsx'
@@ -142,7 +137,7 @@ function AudienceSection() {
 function StepPreview({ type }) {
   if (type === 'map') {
     return (
-      <div className="grid gap-2 rounded-2xl border border-white/18 bg-white/12 p-3 text-white backdrop-blur">
+      <div className="grid gap-2 rounded-2xl border border-white/18 bg-[#241c1a]/70 p-3 text-white">
         <div className="flex items-center gap-2 rounded-xl bg-white/14 px-3 py-2 text-xs font-bold">
           <Search className="size-3.5" aria-hidden="true" />
           Salon near me
@@ -160,7 +155,7 @@ function StepPreview({ type }) {
 
   if (type === 'services') {
     return (
-      <div className="rounded-2xl border border-white/18 bg-white/12 p-3 backdrop-blur">
+      <div className="rounded-2xl border border-white/18 bg-[#241c1a]/70 p-3">
         {['Hair Styling', 'Beard Grooming', 'Hydra Facial'].map((item, index) => (
           <div key={item} className="flex items-center justify-between border-b border-white/12 py-2 text-xs font-bold text-white last:border-0">
             <span>{item}</span>
@@ -173,7 +168,7 @@ function StepPreview({ type }) {
 
   if (type === 'calendar') {
     return (
-      <div className="rounded-2xl border border-white/18 bg-white/12 p-3 backdrop-blur">
+      <div className="rounded-2xl border border-white/18 bg-[#241c1a]/70 p-3">
         <div className="mb-3 flex items-center gap-2 text-xs font-bold text-white">
           <CalendarDays className="size-4" aria-hidden="true" />
           Friday, 7:30 PM
@@ -215,7 +210,7 @@ function StepPreview({ type }) {
 
   if (type === 'again') {
     return (
-      <div className="rounded-2xl border border-white/18 bg-white/12 p-3 backdrop-blur">
+      <div className="rounded-2xl border border-white/18 bg-[#241c1a]/70 p-3">
         <button type="button" className="flex w-full items-center justify-between rounded-full bg-white px-4 py-3 text-xs font-extrabold text-[#241915]">
           Book Again
           <Heart className="size-4 text-[#9b5639]" aria-hidden="true" />
@@ -225,155 +220,161 @@ function StepPreview({ type }) {
   }
 
   return (
-    <div className="rounded-2xl border border-white/18 bg-white/12 p-3 text-xs font-bold text-white backdrop-blur">
+    <div className="rounded-2xl border border-white/18 bg-[#241c1a]/70 p-3 text-xs font-bold text-white">
       A prepared team, a calm chair, and everything ready on arrival.
     </div>
   )
 }
 
-function StepCard({ step, index, activeIndex, scrollProgress }) {
-  const segment = 1 / Math.max(journeySteps.length - 1, 1)
-  const center = index * segment
-  const prefersReducedMotion = useReducedMotion()
-  const input = [
-    center - segment * 1.35,
-    center - segment,
-    center,
-    center + segment,
-    center + segment * 1.35,
-  ]
-  const opacity = useTransform(scrollProgress, input, [0, 0.25, 1, 0.25, 0])
-  const y = useTransform(scrollProgress, input, [410, 320, 0, -320, -410])
-  const scale = useTransform(scrollProgress, input, [0.9, 0.94, 1, 0.94, 0.9])
-  const imageScale = useTransform(scrollProgress, input, [1, 1, 1.03, 1, 1])
-  const isActive = activeIndex === index
+const AUTOPLAY_MS = 3500
+const RESUME_DELAY_MS = 5000
+const PEEK_PERCENT = 27
 
-  const reducedStyle = useMemo(() => {
-    const distance = index - activeIndex
-    return {
-      opacity: Math.abs(distance) > 1 ? 0 : distance === 0 ? 1 : 0.24,
-      y: distance * 300,
-      scale: distance === 0 ? 1 : 0.94,
-    }
-  }, [activeIndex, index])
+function wrappedDistance(index, activeIndex, length) {
+  let distance = index - activeIndex
+  if (distance > length / 2) distance -= length
+  if (distance < -length / 2) distance += length
+  return distance
+}
+
+function StepCard({ step, distance, onToggle }) {
+  const prefersReducedMotion = useReducedMotion()
+  const isActive = distance === 0
+  const abs = Math.abs(distance)
+  const peekY = `${-distance * PEEK_PERCENT}%`
+
+  const target = prefersReducedMotion
+    ? { opacity: isActive ? 1 : 0, y: '0%', scale: 1 }
+    : abs === 0
+      ? { opacity: 1, y: '0%', scale: 1 }
+      : abs === 1
+        ? { opacity: 0.32, y: peekY, scale: 0.93 }
+        : { opacity: 0, y: peekY, scale: 0.9 }
 
   return (
-    <div
-      style={{
-        zIndex: journeySteps.length + 2 - Math.abs(index - activeIndex),
-        pointerEvents: isActive ? 'auto' : 'none',
-      }}
-      className="absolute left-1/2 top-1/2 w-[92vw] max-w-3xl -translate-x-1/2 -translate-y-1/2"
+    <motion.article
+      animate={{ ...target, zIndex: journeySteps.length - abs }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.25 }
+          : abs >= 2
+            ? { duration: 0 }
+            : { type: 'spring', stiffness: 220, damping: 32, mass: 0.7 }
+      }
+      onClick={isActive ? onToggle : undefined}
+      style={{ pointerEvents: isActive ? 'auto' : 'none', cursor: isActive ? 'pointer' : 'default' }}
+      className="absolute inset-x-0 top-24 mx-auto w-full max-w-3xl overflow-hidden rounded-[1.25rem] border border-white/18 bg-[#fffaf6] shadow-[0_28px_90px_-42px_rgba(0,0,0,0.7)] sm:top-32 sm:rounded-[1.65rem]"
+      aria-hidden={!isActive}
+      aria-label={`${step.number}. ${step.title}`}
     >
-      <motion.article
-        style={{
-          opacity: prefersReducedMotion ? reducedStyle.opacity : opacity,
-          y: prefersReducedMotion ? reducedStyle.y : y,
-          scale: prefersReducedMotion ? reducedStyle.scale : scale,
-        }}
-        className="overflow-hidden rounded-[1.65rem] border border-white/18 bg-[#fffaf6] shadow-[0_28px_90px_-42px_rgba(0,0,0,0.7)]"
-        aria-label={`${step.number}. ${step.title}`}
-      >
-        <div className="relative h-48 overflow-hidden bg-[#e9dfd5] sm:h-60">
-          <motion.div style={{ scale: prefersReducedMotion ? 1 : imageScale }} className="size-full">
-            <ImageWithFallback src={step.image.src} alt={step.image.alt} className="size-full object-cover" />
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#191716]/76 via-[#191716]/14 to-transparent" />
-          <div className="absolute left-4 right-4 bottom-4 sm:left-6 sm:right-6">
-            <StepPreview type={step.preview} />
-          </div>
+      <div className="relative h-36 overflow-hidden bg-[#e9dfd5] sm:h-60">
+        <ImageWithFallback src={step.image.src} alt={step.image.alt} className="size-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#191716]/76 via-[#191716]/14 to-transparent" />
+        <div className="absolute left-3 right-3 bottom-3 sm:left-6 sm:right-6 sm:bottom-4">
+          <StepPreview type={step.preview} />
         </div>
+      </div>
 
-        <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[0.34fr_1fr]">
-          <div>
-            <p className="text-5xl font-extrabold leading-none text-[#9b5639]">{step.number}</p>
-            <p className="mt-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#6e7b59]">{step.eyebrow}</p>
-          </div>
-          <div>
-            <h3 className="text-2xl font-extrabold leading-tight text-[#221915] sm:text-3xl">{step.title}</h3>
-            <p className="mt-3 text-sm leading-6 text-[#6f5f57] sm:text-base">{step.description}</p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {step.chips.map((chip) => (
-                <span key={chip} className="rounded-full bg-[#edf1ea] px-3 py-1.5 text-xs font-bold text-[#4f664f]">
-                  {chip}
-                </span>
-              ))}
-            </div>
-            <Link
-              to={ROUTE_PATHS.services}
-              tabIndex={isActive ? 0 : -1}
-              className={buttonClasses({
-                variant: 'secondary',
-                size: 'md',
-                className: 'mt-6 bg-[#221915] hover:bg-[#3a2b24]',
-              })}
-            >
-              {step.action}
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-            </Link>
-          </div>
+      <div className="grid gap-3 p-4 sm:gap-5 sm:p-7 lg:grid-cols-[0.34fr_1fr]">
+        <div>
+          <p className="text-3xl font-extrabold leading-none text-[#9b5639] sm:text-5xl">{step.number}</p>
+          <p className="mt-1.5 text-xs font-extrabold uppercase tracking-[0.18em] text-[#6e7b59] sm:mt-2">{step.eyebrow}</p>
         </div>
-      </motion.article>
-    </div>
+        <div>
+          <h3 className="text-lg font-extrabold leading-tight text-[#221915] sm:text-3xl">{step.title}</h3>
+          <p className="mt-2 text-xs leading-5 text-[#6f5f57] sm:mt-3 sm:text-base sm:leading-6">{step.description}</p>
+          <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
+            {step.chips.map((chip) => (
+              <span key={chip} className="rounded-full bg-[#edf1ea] px-2.5 py-1 text-[11px] font-bold text-[#4f664f] sm:px-3 sm:py-1.5 sm:text-xs">
+                {chip}
+              </span>
+            ))}
+          </div>
+          <Link
+            to={ROUTE_PATHS.services}
+            tabIndex={isActive ? 0 : -1}
+            onClick={(event) => event.stopPropagation()}
+            className={buttonClasses({
+              variant: 'secondary',
+              size: 'sm',
+              className: 'mt-4 bg-[#221915] hover:bg-[#3a2b24] sm:mt-6 sm:h-11 sm:px-6 sm:text-sm',
+            })}
+          >
+            {step.action}
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    </motion.article>
   )
 }
 
-function StepIndicator({ activeIndex, scrollProgress, mode = 'all' }) {
+function StepDot({ step, index, activeIndex, isPlaying, onSelect }) {
+  const isActive = activeIndex === index
+
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(index)}
+      aria-current={isActive}
+      aria-label={`Go to step ${step.number}: ${step.eyebrow}`}
+      className="group flex items-center gap-3 text-left"
+    >
+      <span
+        className={cn(
+          'relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border text-xs font-extrabold transition-all duration-300',
+          isActive ? 'border-[#d7b48c] text-[#221915] scale-110' : 'border-white/18 bg-white/8 text-white/55 group-hover:border-white/40 group-hover:text-white/80',
+        )}
+      >
+        {isActive && (
+          <motion.span
+            key={isPlaying ? 'fill-playing' : 'fill-paused'}
+            className="absolute inset-0 bg-[#d7b48c]"
+            style={{ originY: 1 }}
+            initial={{ scaleY: isPlaying ? 0 : 1 }}
+            animate={{ scaleY: 1 }}
+            transition={isPlaying ? { duration: AUTOPLAY_MS / 1000, ease: 'linear' } : { duration: 0.2 }}
+          />
+        )}
+        <span className="relative z-10">{step.number}</span>
+      </span>
+      <span className={cn('text-xs font-bold transition-colors', isActive ? 'text-white' : 'text-white/42 group-hover:text-white/70')}>
+        {step.eyebrow}
+      </span>
+    </button>
+  )
+}
+
+function StepIndicator({ activeIndex, isPlaying, onSelect, mode = 'all' }) {
   return (
     <>
       {mode !== 'mobile' && (
         <nav className="hidden lg:block" aria-label="Journey progress">
-          <div className="relative px-2 py-2">
-            <div className="absolute left-[1.35rem] top-7 h-[calc(100%-3.5rem)] w-px bg-white/18" aria-hidden="true">
-              <motion.div
-                className="h-full origin-top bg-[#d7b48c]"
-                style={{ scaleY: scrollProgress }}
-              />
-            </div>
-            <ol className="relative z-10 space-y-5">
-              {journeySteps.map((step, index) => (
-                <li key={step.id} className="flex items-center gap-3">
-                  <span
-                    className={cn(
-                      'flex size-9 items-center justify-center rounded-full border text-xs font-extrabold transition-all duration-300',
-                      activeIndex === index
-                        ? 'border-[#d7b48c] bg-[#d7b48c] text-[#221915] scale-110'
-                        : 'border-white/18 bg-white/8 text-white/55',
-                    )}
-                  >
-                    {step.number}
-                  </span>
-                  <span className={cn('text-xs font-bold transition-colors', activeIndex === index ? 'text-white' : 'text-white/42')}>
-                    {step.eyebrow}
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <ol className="space-y-5">
+            {journeySteps.map((step, index) => (
+              <li key={step.id}>
+                <StepDot step={step} index={index} activeIndex={activeIndex} isPlaying={isPlaying} onSelect={onSelect} />
+              </li>
+            ))}
+          </ol>
         </nav>
       )}
 
       {mode !== 'desktop' && (
-        <nav className="absolute left-5 right-5 top-4 z-30 rounded-full border border-white/14 bg-[#191716]/72 px-4 py-3 backdrop-blur lg:hidden" aria-label="Journey progress">
-          <div className="absolute left-6 right-6 top-1/2 h-px bg-white/18" aria-hidden="true">
-            <motion.div className="h-full origin-left bg-[#d7b48c]" style={{ scaleX: scrollProgress }} />
-          </div>
-          <ol className="relative z-10 flex items-center justify-between">
-            {journeySteps.map((step, index) => (
-              <li key={step.id}>
-                <span
-                  className={cn(
-                    'flex size-8 items-center justify-center rounded-full border text-[11px] font-extrabold transition-all duration-300',
-                    activeIndex === index
-                      ? 'border-[#d7b48c] bg-[#d7b48c] text-[#221915]'
-                      : 'border-white/18 bg-[#191716] text-white/55',
-                  )}
-                >
-                  {step.number}
-                </span>
-              </li>
-            ))}
-          </ol>
+        <nav className="mb-6 flex items-center justify-center gap-2 lg:hidden" aria-label="Journey progress">
+          {journeySteps.map((step, index) => (
+            <button
+              key={step.id}
+              type="button"
+              onClick={() => onSelect(index)}
+              aria-current={activeIndex === index}
+              aria-label={`Go to step ${step.number}: ${step.eyebrow}`}
+              className={cn(
+                'h-2 rounded-full transition-all duration-300',
+                activeIndex === index ? 'w-7 bg-[#d7b48c]' : 'w-2 bg-white/25 hover:bg-white/40',
+              )}
+            />
+          ))}
         </nav>
       )}
     </>
@@ -381,52 +382,92 @@ function StepIndicator({ activeIndex, scrollProgress, mode = 'all' }) {
 }
 
 function JourneySection() {
-  const sectionRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  })
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.35 })
+  const [isPlaying, setIsPlaying] = useState(true)
+  const prefersReducedMotion = useReducedMotion()
+  const resumeTimeoutRef = useRef(null)
 
-  useMotionValueEvent(smoothProgress, 'change', (latest) => {
-    const nextIndex = Math.min(journeySteps.length - 1, Math.max(0, Math.round(latest * (journeySteps.length - 1))))
-    setActiveIndex((current) => (current === nextIndex ? current : nextIndex))
-  })
+  useEffect(() => {
+    if (!isPlaying || prefersReducedMotion) return undefined
+
+    const id = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % journeySteps.length)
+    }, AUTOPLAY_MS)
+
+    return () => window.clearInterval(id)
+  }, [isPlaying, prefersReducedMotion])
+
+  useEffect(() => {
+    return () => {
+      if (resumeTimeoutRef.current) window.clearTimeout(resumeTimeoutRef.current)
+    }
+  }, [])
+
+  function clearResumeTimer() {
+    if (resumeTimeoutRef.current) {
+      window.clearTimeout(resumeTimeoutRef.current)
+      resumeTimeoutRef.current = null
+    }
+  }
+
+  function selectStep(index) {
+    clearResumeTimer()
+
+    if (index === activeIndex) {
+      // Clicking the already-active step toggles it: pause, or remove the pause and continue.
+      setIsPlaying((current) => !current)
+      return
+    }
+
+    setActiveIndex(index)
+    setIsPlaying(false)
+    resumeTimeoutRef.current = window.setTimeout(() => {
+      setIsPlaying(true)
+      resumeTimeoutRef.current = null
+    }, RESUME_DELAY_MS)
+  }
+
+  function togglePlay() {
+    clearResumeTimer()
+    setIsPlaying((current) => !current)
+  }
 
   return (
-    <section
-      id="journey"
-      ref={sectionRef}
-      className="relative bg-[#191716]"
-      style={{ height: `${journeySteps.length * 112}vh` }}
-      aria-labelledby="journey-title"
-    >
-      <div className="sticky top-18 min-h-[calc(100vh-4.5rem)] overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(215,180,140,0.13),transparent_34%),linear-gradient(240deg,rgba(79,102,79,0.18),transparent_42%)]" />
-        <Container className="relative grid min-h-[calc(100vh-4.5rem)] items-center gap-8 py-16 lg:grid-cols-[12rem_minmax(0,1fr)]">
-          <div className="hidden self-center lg:block">
-            <p className="mb-6 text-xs font-extrabold uppercase tracking-[0.2em] text-[#d7b48c]">How It Works</p>
-            <StepIndicator activeIndex={activeIndex} scrollProgress={smoothProgress} mode="desktop" />
+    <section id="journey" className="relative overflow-hidden bg-[#191716] py-16 sm:py-20" aria-labelledby="journey-title">
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(215,180,140,0.13),transparent_34%),linear-gradient(240deg,rgba(79,102,79,0.18),transparent_42%)]" />
+      <Container className="relative grid gap-8 lg:grid-cols-[12rem_minmax(0,1fr)] lg:items-center">
+        <div className="hidden self-center lg:block">
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#d7b48c]">How It Works</p>
+            <button
+              type="button"
+              onClick={togglePlay}
+              aria-label={isPlaying ? 'Pause autoplay' : 'Resume autoplay'}
+              className="flex size-7 items-center justify-center rounded-full border border-white/18 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+            >
+              {isPlaying ? <Pause className="size-3.5" aria-hidden="true" /> : <Play className="size-3.5" aria-hidden="true" />}
+            </button>
           </div>
+          <StepIndicator activeIndex={activeIndex} isPlaying={isPlaying} onSelect={selectStep} mode="desktop" />
+        </div>
 
-          <div className="relative min-h-[calc(100vh-9rem)] lg:min-h-[calc(100vh-8rem)]">
-            <h2 id="journey-title" className="sr-only">
-              Salon booking journey
-            </h2>
-            <StepIndicator activeIndex={activeIndex} scrollProgress={smoothProgress} mode="mobile" />
-            {journeySteps.map((step, index) => (
+        <div className="relative">
+          <h2 id="journey-title" className="sr-only">
+            Salon booking journey
+          </h2>
+          <StepIndicator activeIndex={activeIndex} isPlaying={isPlaying} onSelect={selectStep} mode="mobile" />
+          <div className="relative min-h-[40rem] sm:min-h-[52rem]">
+            {journeySteps.map((journeyStep, index) => (
               <StepCard
-                key={step.id}
-                step={step}
-                index={index}
-                activeIndex={activeIndex}
-                scrollProgress={smoothProgress}
+                key={journeyStep.id}
+                step={journeyStep}
+                distance={wrappedDistance(index, activeIndex, journeySteps.length)}
+                onToggle={() => selectStep(index)}
               />
             ))}
           </div>
-        </Container>
-      </div>
+        </div>
+      </Container>
     </section>
   )
 }
