@@ -318,7 +318,7 @@ function Overview({ stats, media }) {
                 <p className="text-sm font-extrabold text-text">{index + 1}. {item.title}</p>
                 <p className="mt-1 text-xs text-text-muted">{item.category} / {statusLabel(item.status)}</p>
               </div>
-              <div className="grid grid-cols-4 gap-3 text-right text-xs">
+              <div className="grid grid-cols-2 gap-3 text-right text-xs sm:grid-cols-4">
                 <Metric label="Views" value={item.stats?.views ?? 0} />
                 <Metric label="Likes" value={item.stats?.likes ?? 0} />
                 <Metric label="Service clicks" value={item.stats?.serviceClicks ?? 0} />

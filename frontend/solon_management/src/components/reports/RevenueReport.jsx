@@ -125,13 +125,13 @@ function RevenueReport({ data }) {
         subtitle="Revenue over time with previous period comparison"
         tooltip="Revenue excludes refunds. Net revenue = gross revenue − discounts − refunds."
         action={
-          <div className="flex items-center gap-1 rounded-full border border-border bg-background p-1">
+          <div className="premium-scrollbar flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-border bg-background p-1">
             {chartModes.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => setMode(item.id)}
-                className={cn('rounded-full px-3 py-1 text-xs font-bold transition-colors', mode === item.id ? 'bg-primary text-primary-foreground' : 'text-text-muted hover:text-text')}
+                className={cn('shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-colors', mode === item.id ? 'bg-primary text-primary-foreground' : 'text-text-muted hover:text-text')}
               >
                 {item.label}
               </button>

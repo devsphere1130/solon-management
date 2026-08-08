@@ -29,12 +29,12 @@ function TrustSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
-              className="text-center"
+              className="min-w-0 text-center"
             >
               <p className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
                 <AnimatedStat value={stat.value} suffix={stat.suffix} />
               </p>
-              <p className="mt-1 text-sm font-semibold text-text-muted">{stat.label}</p>
+              <p className="mt-1 text-sm font-semibold text-text-muted break-words">{stat.label}</p>
             </motion.div>
           ))}
         </div>

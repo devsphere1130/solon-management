@@ -46,7 +46,7 @@ function ImageUploader({ label, description, image, aspect = 'video', accept = '
   }
 
   return (
-    <div className={className}>
+    <div className={cn('min-w-0', className)}>
       {label && <p className="text-sm font-semibold text-text">{label}</p>}
       {description && <p className="mt-0.5 text-xs text-text-muted">{description}</p>}
 

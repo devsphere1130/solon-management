@@ -53,7 +53,7 @@ function ReportsHeader({ dateRange, onDateRangeChange, onExport, onPrint }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 z-30 mt-2 w-64 rounded-2xl border border-border bg-card p-2 shadow-soft"
+                className="absolute left-0 z-30 mt-2 w-64 max-w-[calc(100vw-2.5rem)] rounded-2xl border border-border bg-card p-2 shadow-soft"
               >
                 <div className="max-h-72 overflow-y-auto premium-scrollbar">
                   {dateRangeOptions.map((option) => (
@@ -103,7 +103,7 @@ function ReportsHeader({ dateRange, onDateRangeChange, onExport, onPrint }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 z-30 mt-2 w-52 rounded-2xl border border-border bg-card p-2 shadow-soft"
+                className="absolute right-0 z-30 mt-2 w-52 max-w-[calc(100vw-2.5rem)] rounded-2xl border border-border bg-card p-2 shadow-soft"
               >
                 {[
                   { id: 'pdf', label: 'PDF', icon: FileText },
@@ -151,7 +151,7 @@ function ReportsHeader({ dateRange, onDateRangeChange, onExport, onPrint }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 z-30 mt-2 w-56 rounded-2xl border border-border bg-card p-2 shadow-soft"
+                className="absolute right-0 z-30 mt-2 w-56 max-w-[calc(100vw-2.5rem)] rounded-2xl border border-border bg-card p-2 shadow-soft"
               >
                 <button type="button" onClick={() => { setMoreOpen(false) }} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-text transition-colors hover:bg-background">
                   <CalendarRange className="size-4 text-primary" aria-hidden="true" />

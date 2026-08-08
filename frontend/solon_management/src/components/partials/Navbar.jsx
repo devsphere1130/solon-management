@@ -233,8 +233,8 @@ function Navbar() {
       )}
     >
       <Container className="flex h-18 items-center justify-between py-4">
-        <Link to={ROUTE_PATHS.home} aria-label="DevSphere home">
-          <Logo tone="dark" />
+        <Link to={ROUTE_PATHS.home} aria-label="DevSphere home" className="shrink-0">
+          <Logo tone="dark" wordmarkClassName="hidden min-[360px]:inline" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
@@ -314,19 +314,7 @@ function Navbar() {
           )}
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
-          <Link
-            to={ROUTE_PATHS.wishlist}
-            className="relative flex size-10 items-center justify-center rounded-full text-text"
-            aria-label={`Open wishlist with ${wishlistCount} products`}
-          >
-            <Heart className="size-5" aria-hidden="true" />
-            {wishlistCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex min-w-5 items-center justify-center rounded-full bg-[#9b5639] px-1.5 text-[11px] font-extrabold text-white">
-                {wishlistCount}
-              </span>
-            )}
-          </Link>
+        <div className="flex items-center gap-1 min-[360px]:gap-2 lg:hidden">
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}

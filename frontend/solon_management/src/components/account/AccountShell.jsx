@@ -43,7 +43,7 @@ function AccountShell({ title = 'My Account', description, children }) {
         </Container>
       </section>
 
-      <Container className="grid gap-6 py-8 lg:grid-cols-[17rem_minmax(0,1fr)]">
+      <Container className="grid grid-cols-1 gap-6 py-8 lg:grid-cols-[17rem_minmax(0,1fr)]">
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-[1.35rem] border border-[#eadfd6] bg-white p-4 shadow-soft">
             <div className="flex items-center gap-3 border-b border-[#eadfd6] pb-4">
@@ -56,7 +56,7 @@ function AccountShell({ title = 'My Account', description, children }) {
               </div>
             </div>
 
-            <nav className="mt-4 flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0" aria-label="Account">
+            <nav className="premium-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0" aria-label="Account">
               {accountNav.map((item) => {
                 const Icon = item.icon
                 const count = item.countKey ? counts[item.countKey] : 0

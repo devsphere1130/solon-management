@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../components/partials/Navbar.jsx'
 import Footer from '../components/partials/Footer.jsx'
+import ScrollToTopButton from '../components/common/ScrollToTopButton.jsx'
 
 function PublicLayout() {
   return (
@@ -16,6 +17,7 @@ function PublicLayout() {
         <Outlet />
       </main>
       <Footer />
+      <ScrollToTopButton />
     </div>
   )
 }

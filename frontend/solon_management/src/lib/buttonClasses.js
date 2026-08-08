@@ -9,14 +9,14 @@ const variantClasses = {
 }
 
 const sizeClasses = {
-  sm: 'h-9 px-4 text-sm gap-1.5',
-  md: 'h-11 px-5 text-sm gap-2',
-  lg: 'h-13 px-7 text-base gap-2.5',
+  sm: 'min-h-9 px-4 text-sm gap-1.5',
+  md: 'min-h-11 px-5 text-sm gap-2',
+  lg: 'min-h-13 px-7 text-base gap-2.5',
 }
 
 export function buttonClasses({ variant = 'primary', size = 'md', className } = {}) {
   return cn(
-    'inline-flex items-center justify-center rounded-full font-semibold transition-colors duration-150',
+    'inline-flex items-center justify-center whitespace-nowrap rounded-full font-semibold transition-colors duration-150',
     'disabled:cursor-not-allowed disabled:opacity-60',
     variantClasses[variant],
     sizeClasses[size],

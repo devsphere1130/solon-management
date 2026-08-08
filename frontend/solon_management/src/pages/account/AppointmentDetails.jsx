@@ -151,7 +151,7 @@ function AppointmentDetails() {
     >
       <div className="space-y-6">
         <section className="overflow-hidden rounded-[1.5rem] border border-[#eadfd6] bg-white shadow-soft">
-          <div className="grid gap-6 p-5 lg:grid-cols-[18rem_1fr]">
+          <div className="grid grid-cols-1 gap-6 p-5 lg:grid-cols-[18rem_1fr]">
             <div className="aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-[#f3e8df] lg:aspect-square">
               <AppointmentImage appointment={appointment} />
             </div>
@@ -162,7 +162,7 @@ function AppointmentDetails() {
               </div>
               <h2 className="mt-4 text-3xl font-extrabold text-[#241915]">{appointment.service.name}</h2>
               <p className="mt-2 text-sm leading-6 text-[#6f5f57]">{appointment.service.fullDescription ?? appointment.service.description}</p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <DetailRow icon={CalendarDays} label="Date" value={formatAppointmentDate(appointment.date)} />
                 <DetailRow icon={Clock} label="Time" value={formatAppointmentTime(appointment.time)} />
                 <DetailRow icon={Clock} label="Duration" value={appointment.service.duration} />
@@ -176,7 +176,7 @@ function AppointmentDetails() {
           </div>
         </section>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_22rem]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_22rem]">
           <section className="rounded-[1.5rem] border border-[#eadfd6] bg-white p-6 shadow-soft">
             <h3 className="text-xl font-extrabold text-[#241915]">Service</h3>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">

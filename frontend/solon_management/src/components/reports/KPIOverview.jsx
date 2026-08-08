@@ -34,11 +34,11 @@ function KpiCard({ kpi, index }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
       whileHover={{ y: -3 }}
-      className="rounded-2xl border border-border bg-card p-5 shadow-soft"
+      className="min-w-0 rounded-2xl border border-border bg-card p-5 shadow-soft"
     >
       <p className="text-xs font-semibold text-text-muted">{kpi.label}</p>
-      <p className="mt-2 text-2xl font-extrabold tracking-tight text-text">{kpi.value}</p>
-      <div className="mt-2 flex items-center gap-2">
+      <p className="mt-2 truncate text-2xl font-extrabold tracking-tight text-text">{kpi.value}</p>
+      <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
         <TrendIndicator change={kpi.change} />
         <span className="text-xs text-text-muted">{kpi.period}</span>
       </div>
@@ -52,13 +52,13 @@ function KPIOverview({ kpis, secondaryKpis }) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {primaryItems.map((kpi, index) => (
           <KpiCard key={kpi.id} kpi={kpi} index={index} />
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {secondaryItems.map((kpi, index) => (
           <motion.article
             key={kpi.id}
@@ -66,11 +66,11 @@ function KPIOverview({ kpis, secondaryKpis }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: (index + 4) * 0.05 }}
             whileHover={{ y: -3 }}
-            className={cn('rounded-2xl border p-5 shadow-soft', kpi.tone === 'positive' ? 'border-success/20 bg-success/[0.04]' : 'border-border bg-card')}
+            className={cn('min-w-0 rounded-2xl border p-5 shadow-soft', kpi.tone === 'positive' ? 'border-success/20 bg-success/[0.04]' : 'border-border bg-card')}
           >
             <p className="text-xs font-semibold text-text-muted">{kpi.label}</p>
-            <p className="mt-2 text-xl font-extrabold tracking-tight text-text">{kpi.value}</p>
-            <div className="mt-2 flex items-center gap-2">
+            <p className="mt-2 truncate text-xl font-extrabold tracking-tight text-text">{kpi.value}</p>
+            <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
               <TrendIndicator change={kpi.change} />
               <span className="text-xs text-text-muted">{kpi.period}</span>
             </div>

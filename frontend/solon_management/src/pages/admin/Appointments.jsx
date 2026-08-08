@@ -67,7 +67,7 @@ function Appointments() {
         <p className="mt-1 text-sm text-text-muted">View and manage all salon appointments in one place.</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {summaryCards.map(({ label, value, icon: Icon, tone }, index) => (
           <motion.article
             key={label}
@@ -78,11 +78,11 @@ function Appointments() {
             className="rounded-2xl border border-border bg-card p-5 shadow-soft"
           >
             <div className="flex items-center justify-between gap-3">
-              <div>
+              <div className="min-w-0">
                 <p className="text-xs font-semibold text-text-muted">{label}</p>
-                <p className="mt-2 text-2xl font-extrabold text-text">{value}</p>
+                <p className="mt-2 truncate text-2xl font-extrabold text-text">{value}</p>
               </div>
-              <span className={`flex size-11 items-center justify-center rounded-xl ${tone}`}>
+              <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${tone}`}>
                 <Icon className="size-5" aria-hidden="true" />
               </span>
             </div>

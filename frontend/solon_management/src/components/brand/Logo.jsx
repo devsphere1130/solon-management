@@ -46,7 +46,7 @@ function LogoMark({ tone = 'light', className }) {
   )
 }
 
-function Logo({ tone = 'dark', showWordmark = true, className }) {
+function Logo({ tone = 'dark', showWordmark = true, wordmarkClassName, className }) {
   const textColor = tone === 'light' ? 'text-white' : 'text-text'
 
   return (
@@ -57,7 +57,7 @@ function Logo({ tone = 'dark', showWordmark = true, className }) {
           variants={wordVariants}
           initial="initial"
           animate="animate"
-          className={cn('text-lg font-extrabold tracking-tight', textColor)}
+          className={cn('text-lg font-extrabold tracking-tight', textColor, wordmarkClassName)}
         >
           DevSphere
         </motion.span>

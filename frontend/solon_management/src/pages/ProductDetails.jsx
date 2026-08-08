@@ -460,11 +460,11 @@ function ProductDetails() {
         </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
-          <div className="space-y-8">
+          <div className="min-w-0 space-y-8">
             <ProductTabs product={product} />
             <RoutineSection product={product} routineProducts={routineProducts} onAddRoutine={handleAddRoutine} />
           </div>
-          <div className="space-y-8">
+          <div className="min-w-0 space-y-8">
             <ExpertRecommendation product={product} />
             {relatedProducts.length > 0 && (
               <section className="rounded-[1.75rem] border border-[#eadfd6] bg-white p-5 shadow-soft">
