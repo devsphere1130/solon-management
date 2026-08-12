@@ -23,6 +23,8 @@ const AccountDashboard = lazy(() => import('../pages/account/AccountDashboard.js
 const MyAppointments = lazy(() => import('../pages/account/MyAppointments.jsx'))
 const AppointmentDetails = lazy(() => import('../pages/account/AppointmentDetails.jsx'))
 const AccountPlaceholder = lazy(() => import('../pages/account/AccountPlaceholder.jsx'))
+const Documentation = lazy(() => import('../pages/Documentation.jsx'))
+const DocumentationReader = lazy(() => import('../pages/DocumentationReader.jsx'))
 const NotFound = lazy(() => import('../pages/NotFound.jsx'))
 const Login = lazy(() => import('../pages/auth/Login.jsx'))
 const Dashboard = lazy(() => import('../pages/admin/Dashboard.jsx'))
@@ -130,6 +132,8 @@ function AppRoutes() {
             <Route path={ROUTE_PATHS.accountWishlist} element={<AccountPlaceholder />} />
             <Route path={ROUTE_PATHS.accountProfile} element={<AccountPlaceholder />} />
             <Route path={ROUTE_PATHS.accountSettings} element={<AccountPlaceholder />} />
+            <Route path={ROUTE_PATHS.docs} element={<Documentation />} />
+            <Route path={ROUTE_PATHS.docsReader} element={<DocumentationReader />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 
