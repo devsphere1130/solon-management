@@ -29,6 +29,7 @@ const footerColumns = [
   {
     title: 'Support',
     links: [
+      { label: 'Documentation', href: ROUTE_PATHS.docs },
       { label: 'Help center', href: '#' },
       { label: 'Status', href: '#' },
       { label: 'Privacy policy', href: '#' },

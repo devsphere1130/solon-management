@@ -30,4 +30,6 @@ export const ROUTE_PATHS = Object.freeze({
   settings: '/settings',
   settingsAppearance: '/settings/appearance',
   settingsLandingPage: '/settings/landing-page',
+  docs: '/docs',
+  docsReader: '/docs/:lang',
 })
